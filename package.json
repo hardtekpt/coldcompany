@@ -16,7 +16,6 @@
   "express": "latest",
   "nodemailer": "^4.0.1",
   "socket.io": "^1.7.4",
-  "mysql": "^4.5.0",
   "socket.io-client": "^1.7.4"
 },
   "repository": {
