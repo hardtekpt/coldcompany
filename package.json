@@ -16,7 +16,7 @@
   "nodemailer": "^4.0.1",
   "socket.io": "^1.7.4",
   "socket.io-client": "^1.7.4"
-}
+},
   "repository": {
     "type": "git",
     "url": ""
