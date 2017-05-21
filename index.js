@@ -18,12 +18,11 @@ let transporter = nodemailer.createTransport({
 });
 
 var con = mysql.createConnection({
-  host: "us-cdbr-iron-east-03.cleardb.net",
-  user: "b553071110aa91",
-  password: "fd2e6aff",
-  database: "heroku_32994b02ceea782"
+  host: "eu-cdbr-west-01.cleardb.com",
+  user: "bc89905bb13efe",
+  password: "0b80133a",
+  database: "heroku_1f1f9e115ff7b6f"
 });
-
 var userOk = "nok";
 var emailOk = "nok";
 var name = "";
