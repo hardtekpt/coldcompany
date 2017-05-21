@@ -7,8 +7,6 @@ var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var mysql = require('mysql');
 var afterLoad = require('after-load');
-app.set('port', (process.env.PORT || 5000));
-
 
 let transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -19,16 +17,17 @@ let transporter = nodemailer.createTransport({
 });
 
 var con = mysql.createConnection({
-  host: "sql11.freesqldatabase.com",
-  user: "sql11175040",
-  password: "TmYutnsD6q",
-  database: "sql11175040"
+  host: "us-cdbr-iron-east-03.cleardb.net",
+  user: "b553071110aa91",
+  password: "fd2e6aff",
+  database: "heroku_32994b02ceea782"
 });
 
 var userOk = "nok";
 var emailOk = "nok";
 var name = "";
 var user = "";
+var secret = "";
 
 router.use(function (req,res,next) {
   //console.log("/" + req.method);
@@ -87,7 +86,7 @@ app.use("*",function(req,res){
   res.sendFile(path + "404.html");
 });
 
-http.listen(app.get('port'),function(){
+http.listen(3000,function(){
   console.log("Live at Port 3000");
 });
       con.connect(function(err) {
@@ -95,7 +94,7 @@ http.listen(app.get('port'),function(){
         console.log("Connected!");
     });
 
-/*afterLoad('https://google.com', function(html){
+/*afterLoad('https://localhost:8888', function(html){
    console.log(html);
 });*/
 
@@ -119,10 +118,10 @@ io.sockets.on('connection', function(socket){
     });
     socket.on('enviar', function(data){
         var post  = {
-          name: data.name,
-          surname: data.surname,
-          email: data.email,
-          username: data.username,
+          name: data.name, 
+          surname: data.surname, 
+          email: data.email, 
+          username: data.username, 
           password: data.password
         }
 
@@ -133,6 +132,37 @@ io.sockets.on('connection', function(socket){
             socket.broadcast.emit('userOk', "ok");
             userOk = "ok";
             console.log(userOk);
+                    con.query('SELECT * FROM members WHERE email = ?' , data.email, function (err, result){
+          if (err) throw err;
+          if (result == ""){
+            socket.emit('emailOk', "ok");
+            socket.broadcast.emit('userOk', "ok");
+            emailOk = "ok";
+            console.log(emailOk);
+                      //verificar email user=pass e pass=pass1
+                      con.query('INSERT INTO members set?',post, function (err, result) {
+            if (err) throw err;
+            console.log("1 user created");
+          });
+
+        let mailOptions = {
+          to: data.email,
+          subject: 'Account activation', 
+          text: 'http://192.168.1.67:3000/activate/users?id='+data.username
+        };
+        transporter.sendMail(mailOptions, (error, info) => {
+          if (error) {
+            return console.log(error);
+          }
+        });
+          }
+          else{
+            socket.emit('emailOk', "nok");
+            socket.broadcast.emit('emailOk', "nok");
+            emailOk = "nok";
+            console.log("Error: email already exists");
+          }
+        });
           }
           else{
             socket.emit('userOk', "nok");
@@ -142,48 +172,9 @@ io.sockets.on('connection', function(socket){
           }
         });
 
-        con.query('SELECT * FROM members WHERE email = ?' , data.email, function (err, result){
-          if (err) throw err;
-          if (result == ""){
-            socket.emit('emailOk', "ok");
-            socket.broadcast.emit('userOk', "ok");
-            emailOk = "ok";
-            console.log(emailOk);
-          }
-          else{
-            socket.emit('emailOk', "nok");
-            socket.broadcast.emit('emailOk', "nok");
-            emailOk = "nok";
-            console.log("Error: email already exists");
-          }
-        });
 
 
-    });
-    //registo
-    socket.on('registo', function(data){
-          var post  = {
-          name: data.name,
-          surname: data.surname,
-          email: data.email,
-          username: data.username,
-          password: data.password
-        }
-          con.query('INSERT into members set?',post, function (err, result) {
-            if (err) throw err;
-            console.log("1 user created");
-          });
 
-        let mailOptions = {
-          to: data.email,
-          subject: 'Account activation',
-          text: 'http://192.168.1.67:3000/activate/users?id='+data.username
-        };
-        transporter.sendMail(mailOptions, (error, info) => {
-          if (error) {
-            return console.log(error);
-          }
-        });
     });
 
     //login
@@ -197,7 +188,7 @@ io.sockets.on('connection', function(socket){
               user = data.username;
               console.log("logged in");
               socket.emit('login', "ok");
-              socket.broadcast.emit('login', "ok");
+              //socket.broadcast.emit('login', "ok");
             }
             else{
               console.log("not logged in");
@@ -222,7 +213,7 @@ io.sockets.on('connection', function(socket){
         con.query('UPDATE members SET email_activation = 10 WHERE members.username = ?', name, function(err, result){
             if(err) throw err;
         });
-
+        
       }
       else{
         console.log("email activation error!");
@@ -235,9 +226,33 @@ io.sockets.on('connection', function(socket){
         socket.emit('user', user);
         socket.broadcast.emit('user', user);
       }
-      else{
-        socket.emit('user', "error");
-        socket.broadcast.emit('user', "error");
+      else if(data == "secret"){
+        con.query('SELECT * FROM members WHERE username = ?', user, function(err, result, rows){
+          if(err) throw err;
+          if(result[0].secret == ""){
+            socket.emit('secret', "pedir");
+            socket.broadcast.emit('secret', "pedir");
+          }
+          else{
+            socket.emit('secret', result[0].secret);
+            socket.broadcast.emit('secret', result[0].secret);
+            secret = result[0].secret;
+          }
+        });
+      }
+      else if (data == "temp"){
+        con.query('SELECT lastValue FROM members WHERE secret = ?;',secret, function(err, result){
+          if(err) throw err;
+          socket.emit('temp', result[0].lastValue);
+          socket.broadcast.emit('temp', result[0].lastValue);
+        });
+      }
+      else if(data == "time"){
+        con.query('SELECT date FROM data WHERE id=(SELECT MAX(id) FROM data);', function(err, result){
+          if(err) throw err;
+          socket.emit('time', result[0].date);
+          socket.broadcast.emit('time', result[0].date);
+        });
       }
     });
 
@@ -253,4 +268,18 @@ io.sockets.on('connection', function(socket){
         socket.broadcast.emit('dadosEmail', rows[0].email);
       });
     });
+
+    socket.on('save', function(data){
+      var fields = {
+        remoteName: data.name,
+        secret: data.secret
+      }
+      con.query('UPDATE members set? WHERE username = ?',[fields, user], function (err, result) {
+        if (err) throw err;
+      });
+    });
 });
+
+setInterval(function () {
+    con.query('SELECT 1');
+}, 5000);

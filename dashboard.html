@@ -15,14 +15,11 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
 <script src="script.js"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link href="css/style.css" rel="stylesheet">
-
+<link href="css/style.css" rel="stylesheet">
 
 </head>
 <body>
-
-
-                            <nav class="navbar navbar-default">
+    <nav class="navbar navbar-default">
       <div class="container">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -83,8 +80,14 @@
               <div class="panel-body">
                 <div class="col-md-3">
                   <div class="well dash-box">
-                    <h2><i class="fa fa-thermometer-full" aria-hidden="true"></i> 203</h2>
+                    <h2 id="temp"><i class="fa fa-thermometer-full" aria-hidden="true" ></i> 203</h2>
                     <h4>Temperature</h4>
+                  </div>
+                </div>
+                <div class="col-md-9">
+                  <div class="well dash-box">
+                    <h2 id="datetime"><i class="fa fa-clock-o" aria-hidden="true" ></i> 203</h2>
+                    <h4>Last checked</h4>
                   </div>
                 </div>
               </div>
@@ -144,26 +147,73 @@
 			</div>
 		</div>
 		</div>		
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Initial setup</h5>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="recipient-name" class="form-control-label">Name:</label>
+            <input type="text" class="form-control" id="name3" />
+          </div>
+          <div class="form-group">
+            <label for="message-text" class="form-control-label">Secret:</label>
+            <input type="text" class="form-control" id="secret" />
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+		<button type="submit" class="btn btn-danger" onclick="save()">
+			Save
+		</button>
+      </div>
+    </div>
+  </div>
+</div>
 		
 <script src="/socket.io/socket.io.js"></script>
-<script src="https://code.jquery.com/jquery-1.11.1.js"></script>
 <script>
 	var socket = io.connect();
     socket.emit('get', "user");
     socket.on('user' , function(data){
         document.getElementById('welcome').innerHTML ="Welcome, " + data;
     });
+    socket.emit('get', "secret");
+    socket.on('secret', function(data){
+      if (data == "pedir"){
+       $('#exampleModal').modal('show');
+      }
+      else{
+        socket.emit('get', "temp");
+        socket.on('temp', function(data){
+          var rounded = Math.round( data * 10 ) / 10;
+          document.getElementById('temp').innerHTML = rounded + "ºC";
+        });
+        socket.emit('get', "time");
+        socket.on('time', function(data){
+          document.getElementById('datetime').innerHTML = data;
+        });
+      }
+    });
+    var fields;
+    function save(){
+      fields = {
+        name: document.getElementById('name3').value,
+        secret: document.getElementById('secret').value
+      }
+      if(fields.name != "" && fields.secret != ""){
+        socket.emit('save', fields);
+        $('#exampleModal').modal('hide');
+      }
+      else{
+        alert("Error\nPlease fill out all the fields");
+        console.log(fields);
+      }
+    }
 </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
