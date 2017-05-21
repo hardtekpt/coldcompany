@@ -7,6 +7,7 @@ var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var mysql = require('mysql');
 var afterLoad = require('after-load');
+app.set('port', (process.env.PORT || 5000));
 
 let transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -86,7 +87,7 @@ app.use("*",function(req,res){
   res.sendFile(path + "404.html");
 });
 
-http.listen(3000,function(){
+http.listen(app.get('port'),function(){
   console.log("Live at Port 3000");
 });
       con.connect(function(err) {
