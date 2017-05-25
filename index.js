@@ -9,6 +9,7 @@ var mysql = require('mysql');
 var afterLoad = require('after-load');
 app.set('port', (process.env.PORT || 5000));
 
+
 let transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
@@ -23,6 +24,7 @@ var con = mysql.createConnection({
   password: "0b80133a",
   database: "heroku_1f1f9e115ff7b6f"
 });
+
 var userOk = "nok";
 var emailOk = "nok";
 var name = "";
@@ -74,6 +76,14 @@ router.get("/user.html",function(req,res){
   res.sendFile(path + "user.html");
 });
 
+router.get("/settings.html",function(req,res){
+  res.sendFile(path + "settings.html");
+});
+
+router.get("/stats.html",function(req,res){
+  res.sendFile(path + "stats.html");
+});
+
 app.get('/activate/users', function(req, res) {
   var user_id = req.param('id');
   name = user_id;
@@ -93,12 +103,6 @@ http.listen(app.get('port'),function(){
         if (err) throw err;
         console.log("Connected!");
     });
-
-/*afterLoad('https://localhost:8888', function(html){
-   console.log(html);
-});*/
-
-
 io.sockets.on('connection', function(socket){
     console.log('A user connected: ' + socket.id);
 
@@ -188,7 +192,7 @@ io.sockets.on('connection', function(socket){
               user = data.username;
               console.log("logged in");
               socket.emit('login', "ok");
-              //socket.broadcast.emit('login', "ok");
+              socket.broadcast.emit('login', "ok");
             }
             else{
               console.log("not logged in");
@@ -254,8 +258,28 @@ io.sockets.on('connection', function(socket){
           socket.broadcast.emit('time', result[0].date);
         });
       }
+      else if (data == "title"){
+         con.query('SELECT remoteName FROM members WHERE secret = ?;',secret, function(err, result){
+          if(err) throw err;
+          socket.emit('title', result[0].remoteName);
+          socket.broadcast.emit('title', result[0].remoteName);
+        });       
+      }
+      else if(data == "tabela"){
+        con.query('SELECT * FROM (Select * FROM data ORDER BY id DESC LIMIT 24) sub ORDER BY id DESC;', function(err, result){
+          if(err) throw err;
+          socket.emit('tabela',result);
+        });
+      }
+      else if(data == "coluna1"){
+         setTimeout(function(){
+         con.query('SELECT '+ secret +' '+' FROM (Select * FROM data ORDER BY id DESC LIMIT 24) sub ORDER BY id ASC;', function(err, result){
+          if(err) throw err;
+          socket.emit('coluna1',result);
+        });   
+      },300);
+      }
     });
-
     //pedir dados
     socket.on('pedirDados', function(data){
       con.query('SELECT * FROM members WHERE username = ?', user, function(err, rows){
@@ -275,6 +299,17 @@ io.sockets.on('connection', function(socket){
         secret: data.secret
       }
       con.query('UPDATE members set? WHERE username = ?',[fields, user], function (err, result) {
+        if (err) throw err;
+      });
+    });
+
+    socket.on('guardar', function(data){
+      var settings = {
+        remoteName: data.remoteName,
+        secret: data.secret
+      }
+      secret = settings.secret;
+      con.query('UPDATE members set? WHERE username = ?',[settings, user], function (err, result) {
         if (err) throw err;
       });
     });

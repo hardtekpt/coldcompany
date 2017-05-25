@@ -16,12 +16,12 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
 <script src="script.js"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/bootstrap-table.min.css">
     <link href="css/style.css" rel="stylesheet">
 
 
 </head>
 <body>
-
 
                             <nav class="navbar navbar-default">
       <div class="container">
@@ -36,10 +36,10 @@
         </div>
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
-            <li><a href="dashboard.html">Dashboard</a></li>
+            <li class="active"><a href="dashboard.html">Dashboard</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
-            <li class="active"><a id="welcome" href="#" >Welcome, brad </a></li>
+            <li><a id="welcome" href="#" >Welcome, brad </a></li>
             <li><a href="index.html">Logout</a></li>
           </ul>
         </div><!--/.nav-collapse -->
@@ -76,52 +76,23 @@
 
           </div>
           <div class="col-md-9">
-            <!-- Website Overview -->
             <div class="panel panel-default">
               <div class="panel-heading main-color-bg">
-                <h3 class="panel-title">User</h3>
+                <h3 class="panel-title">Last 24 hours</h3>
               </div>
               <div class="panel-body">
-
-                  <table class="table table-striped table-hover">
-                      <tr>
-                        <th>Field</th>
-                        <th>Data</th>
-                        <th>Ok</th>
-                      </tr>
-                      <tr>
-                        <td>Name</td>
-                        <td id="nameField">name</td>
-                        <td><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></td>
-                      </tr>
-                      <tr>
-                        <td>Surname</td>
-                        <td id="surnameField">surname</td>
-                        <td><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></td>
-                      </tr>
-                      <tr>
-                        <td>Email</td>
-                        <td id="emailField">email</td>
-                        <td><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></td>
-                      </tr>
-                      <tr>
-                        <td>Username</td>
-                        <td id="usernameField">username</td>
-                        <td><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></td>
-                      </tr>
-                    </table>
-
+            <!--tabela-->
+            <table id="table"></table>
               </div>
               </div>
           </div>
         </div>
       </div>
     </section>
-
 		<div class="container-fullwidth">
 		<div class="row">
 			<div class="col-md-12">
-				<nav class="navbar-fixed-bottom">
+				<nav class="navbar-static-bottom">
 				<footer class="footer" style="border: 0px; border-radius: 0px; background: rgb(34,34,34);">
 						<div class="container-fluid">
 							<div class="row">
@@ -163,38 +134,178 @@
 						</div>
 				</footer>
 				</nav>
-                
 			</div>
 		</div>
 		</div>		
-		
+		<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/bootstrap-table.min.js"></script>
+
+<!-- Latest compiled and minified Locales -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/locale/bootstrap-table-zh-CN.min.js"></script>
 <script src="/socket.io/socket.io.js"></script>
 <script>
-    var user = {
-        name: "",
-        surname: "",
-        email: "",
-        username: ""
-    }
+  var user = {
+      name: "",
+      surname: "",
+      email: "",
+      username: ""
+  }
+  var tabela;
+  var secret;
 	var socket = io.connect();
     socket.emit('get', "user");
     socket.on('user' , function(data){
         document.getElementById('welcome').innerHTML ="Welcome, " + data;
-        document.getElementById('usernameField').innerHTML = data;
-        user.username = data;
     });
-    socket.emit('pedirDados', "user");
-    socket.on('dadosName', function(data){
-        document.getElementById('nameField').innerHTML = data;
-        user.name = data;
+    socket.emit('get', "secret");
+    socket.on('secret', function(data){
+      secret = data;
     });
-    socket.on('dadosSurname', function(data){
-        document.getElementById('surnameField').innerHTML = data;
-        user.surname = data;
-    });
-    socket.on('dadosEmail', function(data){
-        document.getElementById('emailField').innerHTML = data;
-        user.email = data;
+    socket.emit('get', "tabela");
+    socket.on('tabela', function(data){
+    var i = 0;
+    while (i < 24) {
+        var date = data[i].date.split("T");
+        var time = date[1].split(".");
+        data[i].date = date[0];
+        data[i].time = time[0];
+        i++;
+    }
+      $('#table').bootstrapTable({
+        columns: [{
+            field: 'id',
+            title: '#'
+        }, {
+            field: secret,
+            title: 'Temperature'
+        }, {
+            field: 'date',
+            title: 'Date'
+        }, {
+            field: 'time',
+            title: 'Time'
+        }],
+        data: [{
+        id: 1,
+        [secret]: data[0][secret],
+        date: data[0].date,
+        time: data[0].time
+    },{
+        id: 2,
+        [secret]: data[1][secret],
+        date: data[1].date,
+        time: data[1].time
+    },{
+        id: 3,
+        [secret]: data[2][secret],
+        date: data[2].date,
+        time: data[2].time
+    },{
+        id: 4,
+        [secret]: data[3][secret],
+        date: data[3].date,
+        time: data[3].time
+    },{
+        id: 5,
+        [secret]: data[4][secret],
+        date: data[4].date,
+        time: data[4].time
+    },{
+        id: 6,
+        [secret]: data[5][secret],
+        date: data[5].date,
+        time: data[5].time
+    },{
+        id: 7,
+        [secret]: data[6][secret],
+        date: data[6].date,
+        time: data[6].time
+    },{
+        id: 8,
+        [secret]: data[7][secret],
+        date: data[7].date,
+        time: data[7].time
+    },{
+        id: 9,
+        [secret]: data[8][secret],
+        date: data[8].date,
+        time: data[8].time
+    },{
+        id: 10,
+        [secret]: data[9][secret],
+        date: data[9].date,
+        time: data[9].time
+    },{
+        id: 11,
+        [secret]: data[10][secret],
+        date: data[10].date,
+        time: data[10].time
+    },{
+        id: 12,
+        [secret]: data[11][secret],
+        date: data[11].date,
+        time: data[11].time
+    },{
+        id: 13,
+        [secret]: data[12][secret],
+        date: data[12].date,
+        time: data[12].time
+    },{
+        id: 14,
+        [secret]: data[13][secret],
+        date: data[13].date,
+        time: data[13].time
+    },{
+        id: 15,
+        [secret]: data[14][secret],
+        date: data[14].date,
+        time: data[14].time
+    },{
+        id: 16,
+        [secret]: data[15][secret],
+        date: data[15].date,
+        time: data[15].time
+    },{
+        id: 17,
+        [secret]: data[16][secret],
+        date: data[16].date,
+        time: data[16].time
+    },{
+        id: 18,
+        [secret]: data[17][secret],
+        date: data[17].date,
+        time: data[17].time
+    },{
+        id: 19,
+        [secret]: data[18][secret],
+        date: data[18].date,
+        time: data[18].time
+    },{
+        id: 20,
+        [secret]: data[19][secret],
+        date: data[19].date,
+        time: data[19].time
+    },{
+        id: 21,
+        [secret]: data[20][secret],
+        date: data[20].date,
+        time: data[20].time
+    },{
+        id: 22,
+        [secret]: data[21][secret],
+        date: data[21].date,
+        time: data[21].time
+    },{
+        id: 23,
+        [secret]: data[22][secret],
+        date: data[22].date,
+        time: data[22].time
+    }, {
+        id: 24,
+        [secret]: data[23][secret],
+        date: data[23].date,
+        time: data[23].time
+    }]
+      });
     });
 </script>
 </body>

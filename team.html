@@ -7,6 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <title>Cold company</title>
+ <link rel="shortcut icon" href="images/logocc2.png" />
 
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.3/angular.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.3/angular-route.min.js"></script>
@@ -35,17 +36,28 @@
 								<li >
 									<a href="index.html">Home</a>
 								</li>
-								<li>
-									<a href="#">Product</a>
+								<li class="dropdown">
+									<a href="#" class="dropdown-toggle" data-toggle="dropdown">Products<strong class="caret"></strong></a>
+											<ul class="dropdown-menu">
+												<li>
+													<a href="#">Fridges</a>
+												</li>
+												<li>
+													<a href="#">Refrigerating chambers</a>
+												</li>
+												<li>
+													<a href="#">Remote temperature</a>
+												</li>
+											</ul>
 								</li>
 								<li class="dropdown">
 									 <a href="#" class="dropdown-toggle" data-toggle="dropdown">About<strong class="caret"></strong></a>
 									<ul class="dropdown-menu">
 										<li class="active">
-											<a href="#">Team</a>
+											<a href="team.html">Team</a>
 										</li>
 										<li>
-											<a href="#">Info</a>
+											<a href="info.html">Info</a>
 										</li>
 										<li class="divider">
 										</li>
@@ -58,7 +70,7 @@
 
 							<ul class="nav navbar-nav navbar-right">
 								<li>
-									<a href="login.html" >Login
+									<a href="#" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Login
 									<span class="glyphicon glyphicon-user" aria-hidden="true" style="padding-right: 10px;"></span>
 									</a>
                 				</li>
@@ -70,224 +82,75 @@
 			</div>
 				
 		</div>
-	</div>
+		<div class="container">
 	<div class="row">
-		<div class="col-md-6">
-			<img alt="Bootstrap Image Preview" src="http://lorempixel.com/140/140/">
-		</div>
-		<div class="col-md-6">
-			<dl>
-				<dt>
-					Description lists
-				</dt>
-				<dd>
-					A description list is perfect for defining terms.
-				</dd>
-				<dt>
-					Euismod
-				</dt>
-				<dd>
-					Vestibulum id ligula porta felis euismod semper eget lacinia odio sem nec elit.
-				</dd>
-				<dd>
-					Donec id elit non mi porta gravida at eget metus.
-				</dd>
-				<dt>
-					Malesuada porta
-				</dt>
-				<dd>
-					Etiam porta sem malesuada magna mollis euismod.
-				</dd>
-				<dt>
-					Felis euismod semper eget lacinia
-				</dt>
-				<dd>
-					Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.
-				</dd>
-			</dl>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-md-6">
-			<img alt="Bootstrap Image Preview" src="http://lorempixel.com/140/140/">
-		</div>
-		<div class="col-md-6">
-			<dl>
-				<dt>
-					Description lists
-				</dt>
-				<dd>
-					A description list is perfect for defining terms.
-				</dd>
-				<dt>
-					Euismod
-				</dt>
-				<dd>
-					Vestibulum id ligula porta felis euismod semper eget lacinia odio sem nec elit.
-				</dd>
-				<dd>
-					Donec id elit non mi porta gravida at eget metus.
-				</dd>
-				<dt>
-					Malesuada porta
-				</dt>
-				<dd>
-					Etiam porta sem malesuada magna mollis euismod.
-				</dd>
-				<dt>
-					Felis euismod semper eget lacinia
-				</dt>
-				<dd>
-					Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.
-				</dd>
-			</dl>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-md-6">
-			<img alt="Bootstrap Image Preview" src="http://lorempixel.com/140/140/">
-		</div>
-		<div class="col-md-6">
-			<dl>
-				<dt>
-					Description lists
-				</dt>
-				<dd>
-					A description list is perfect for defining terms.
-				</dd>
-				<dt>
-					Euismod
-				</dt>
-				<dd>
-					Vestibulum id ligula porta felis euismod semper eget lacinia odio sem nec elit.
-				</dd>
-				<dd>
-					Donec id elit non mi porta gravida at eget metus.
-				</dd>
-				<dt>
-					Malesuada porta
-				</dt>
-				<dd>
-					Etiam porta sem malesuada magna mollis euismod.
-				</dd>
-				<dt>
-					Felis euismod semper eget lacinia
-				</dt>
-				<dd>
-					Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.
-				</dd>
-			</dl>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-md-6">
-			<img alt="Bootstrap Image Preview" src="http://lorempixel.com/140/140/">
-		</div>
-		<div class="col-md-6">
-			<dl>
-				<dt>
-					Description lists
-				</dt>
-				<dd>
-					A description list is perfect for defining terms.
-				</dd>
-				<dt>
-					Euismod
-				</dt>
-				<dd>
-					Vestibulum id ligula porta felis euismod semper eget lacinia odio sem nec elit.
-				</dd>
-				<dd>
-					Donec id elit non mi porta gravida at eget metus.
-				</dd>
-				<dt>
-					Malesuada porta
-				</dt>
-				<dd>
-					Etiam porta sem malesuada magna mollis euismod.
-				</dd>
-				<dt>
-					Felis euismod semper eget lacinia
-				</dt>
-				<dd>
-					Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.
-				</dd>
-			</dl>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-md-6">
-			<img alt="Bootstrap Image Preview" src="http://lorempixel.com/140/140/">
-		</div>
-		<div class="col-md-6">
-			<dl>
-				<dt>
-					Description lists
-				</dt>
-				<dd>
-					A description list is perfect for defining terms.
-				</dd>
-				<dt>
-					Euismod
-				</dt>
-				<dd>
-					Vestibulum id ligula porta felis euismod semper eget lacinia odio sem nec elit.
-				</dd>
-				<dd>
-					Donec id elit non mi porta gravida at eget metus.
-				</dd>
-				<dt>
-					Malesuada porta
-				</dt>
-				<dd>
-					Etiam porta sem malesuada magna mollis euismod.
-				</dd>
-				<dt>
-					Felis euismod semper eget lacinia
-				</dt>
-				<dd>
-					Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.
-				</dd>
-			</dl>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-md-6">
-			<img alt="Bootstrap Image Preview" src="http://lorempixel.com/140/140/">
-		</div>
-		<div class="col-md-6">
-			<dl>
-				<dt>
-					Description lists
-				</dt>
-				<dd>
-					A description list is perfect for defining terms.
-				</dd>
-				<dt>
-					Euismod
-				</dt>
-				<dd>
-					Vestibulum id ligula porta felis euismod semper eget lacinia odio sem nec elit.
-				</dd>
-				<dd>
-					Donec id elit non mi porta gravida at eget metus.
-				</dd>
-				<dt>
-					Malesuada porta
-				</dt>
-				<dd>
-					Etiam porta sem malesuada magna mollis euismod.
-				</dd>
-				<dt>
-					Felis euismod semper eget lacinia
-				</dt>
-				<dd>
-					Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.
-				</dd>
-			</dl>
+		<div class="col-md-12">
+			<div class="page-header">
+				<h1>
+					Meet the team!
+				</h1>
+			</div>
 		</div>
 	</div>
 </div>
+    <div class="container">
+<div class="row">
+		<div class="col-md-4">
+			<img alt="Bootstrap Image Preview" src="images/mota.jpg" class="img-circle center-block" />
+			<h2>
+				Bruno Mota
+			</h2>
+			<p>
+				Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
+			</p>
+		</div>
+		<div class="col-md-4">
+			<img alt="Bootstrap Image Preview" src="images/velez.jpg" class="img-circle center-block" />
+			<h2>
+				Francisco Velez
+			</h2>
+			<p>
+				Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
+			</p>
+		</div>
+		<div class="col-md-4">
+			<img alt="Bootstrap Image Preview" src="images/tony.jpg" class="img-circle center-block" />
+			<h2>
+				António Domingues
+			</h2>
+			<p>
+				Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
+			</p>
+		</div>
+	</div>
+	<div class="row">
+		</br></br></br>
+	</div>
+	<div class="row">
+		<div class="col-md-2"></div>
+		<div class="col-md-4">
+			<img alt="Bootstrap Image Preview" src="images/andru.jpg" class="img-circle center-block" />
+			<h2>
+				André Carreira
+			</h2>
+			<p>
+				Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
+			</p>
+		</div>
+		<div class="col-md-4">
+			<img alt="Bootstrap Image Preview" src="images/prime.jpg" class="img-circle center-block" />
+			<h2>
+				Henrique Primitivo
+			</h2>
+			<p>
+				Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
+			</p>
+		</div>
+	</div>
+		<div class="row">
+		</br></br></br>
+	</div>
+    </div>
 		<div class="container-fullwidth">
 		<div class="row">
 			<div class="col-md-12">
@@ -334,9 +197,65 @@
 			</div>
 		</div>
 		</div>
+		<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Login</h5>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="recipient-name" class="form-control-label">Username:</label>
+            <input type="text" class="form-control" id="username" />
+          </div>
+          <div class="form-group">
+            <label for="message-text" class="form-control-label">Password:</label>
+            <input type="password" class="form-control" id="password" />
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+		<span class="form-control-static pull-left">Not registred?<a class="btn" href="createaccount.html">Create an account</a></span>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+		<button type="submit" class="btn btn-primary" onclick="entrar()">
+			Sign in
+		</button>
+      </div>
+    </div>
+  </div>
+</div>
+		
+		
+<script src="/socket.io/socket.io.js"></script>
+<script>
+	var socket = io.connect();
 
-    <script src="js/jquery.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/scripts.js"></script>
+    	var submission;
+		function entrar(){
+		submission = {
+            username: document.getElementById("username").value,
+            password: document.getElementById("password").value
+		}
+		if(submission.username != "" && submission.password != ""){
+			socket.emit('entrar2', submission);
+		}
+		else{
+			alert("Please fill out all the fields!");
+		}
+		logar();
+
+	}
+	function logar(){
+		socket.on('login', function(data){
+			if(data == "ok"){
+				window.location.replace("/dashboard.html");
+			}
+			else if(data == "nok"){
+				alert("Error\nWrong user or password");
+			}
+		});
+	}
+</script>
   </body>
 </html>
