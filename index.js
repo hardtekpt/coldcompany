@@ -9,7 +9,6 @@ var mysql = require('mysql');
 var afterLoad = require('after-load');
 app.set('port', (process.env.PORT || 5000));
 
-
 let transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
@@ -84,6 +83,18 @@ router.get("/stats.html",function(req,res){
   res.sendFile(path + "stats.html");
 });
 
+router.get("/fridges.html",function(req,res){
+  res.sendFile(path + "fridges.html");
+});
+
+router.get("/remotetemp.html",function(req,res){
+  res.sendFile(path + "remotetemp.html");
+});
+
+router.get("/rc.html",function(req,res){
+  res.sendFile(path + "rc.html");
+});
+
 app.get('/activate/users', function(req, res) {
   var user_id = req.param('id');
   name = user_id;
@@ -152,7 +163,7 @@ io.sockets.on('connection', function(socket){
         let mailOptions = {
           to: data.email,
           subject: 'Account activation', 
-          text: 'http://192.168.1.67:3000/activate/users?id='+data.username
+          text: 'http://coldcompany.herokuapp.com/activate/users?id='+data.username
         };
         transporter.sendMail(mailOptions, (error, info) => {
           if (error) {
@@ -278,7 +289,19 @@ io.sockets.on('connection', function(socket){
           socket.emit('coluna1',result);
         });   
       },300);
-      }
+    }
+    else if(data == "tempLim"){
+          con.query('SELECT tempLim FROM members WHERE username = ?;',user, function(err, result){
+          if(err) throw err;
+          socket.emit('tempLim',result[0].tempLim);
+        });
+    }
+        else if(data == "tempLim2"){
+          con.query('SELECT tempLim2 FROM members WHERE username = ?;',user, function(err, result){
+          if(err) throw err;
+          socket.emit('tempLim2',result[0].tempLim2);
+        });
+    }
     });
     //pedir dados
     socket.on('pedirDados', function(data){
@@ -310,6 +333,22 @@ io.sockets.on('connection', function(socket){
       }
       secret = settings.secret;
       con.query('UPDATE members set? WHERE username = ?',[settings, user], function (err, result) {
+        if (err) throw err;
+      });
+    });
+    socket.on('guardarLim', function(data){
+      var settings = {
+        tempLim: data.tempLim
+      }
+      con.query('UPDATE members set? WHERE username="'+ user +' '+'";', settings, function (err, result) {
+        if (err) throw err;
+      });
+    });
+        socket.on('guardarLim2', function(data){
+      var settings = {
+        tempLim2: data.tempLim2
+      }
+      con.query('UPDATE members set? WHERE username="'+ user +' '+'";', settings, function (err, result) {
         if (err) throw err;
       });
     });

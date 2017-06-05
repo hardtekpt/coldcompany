@@ -99,6 +99,39 @@
 				<button type="submit" class="btn btn-default" onclick="guardar()">
 					Save
 				</button>
+                  </form>
+                            </br>
+          </br>
+
+			<form class="form-horizontal" role="form">
+				<div class="form-group">
+					<label for="inputEmail3" class="col-sm-6 control-label">
+						Notify me when the temperature is below: 
+					</label>
+					<div class="col-sm-2">
+						<input type="text" class="form-control" id="templim" placeholder="ºC" />
+					</div>
+          <div class="col-sm-2">
+            				<button type="submit" class="btn btn-default" onclick="enivarLimite()">
+					Save
+				</button>
+          </div>
+				</div>
+        				<div class="form-group">
+					<label for="inputEmail3" class="col-sm-6 control-label">
+						Notify me when the temperature is above: 
+					</label>
+					<div class="col-sm-2">
+						<input type="text" class="form-control" id="templim2" placeholder="ºC" />
+					</div>
+          <div class="col-sm-2">
+            				<button type="submit" class="btn btn-default" onclick="enivarLimite2()">
+					Save
+				</button>
+          </div>
+				</div>
+
+
 			</form>
               </div>
               </div>
@@ -181,6 +214,14 @@
     socket.on('title', function(data){
         $('#changeName').attr('placeholder',data);
     });
+    socket.emit('get', "tempLim");
+    socket.on('tempLim', function(data){
+      $('#templim').attr('placeholder',data + "ºC");
+    });
+    socket.emit('get', "tempLim2");
+    socket.on('tempLim2', function(data){
+      $('#templim2').attr('placeholder',data + "ºC");
+    });
 
     var settings;
 
@@ -195,6 +236,28 @@
         else{
             alert("Error\nPlease fill out all the fields!");
         }
+    }
+    function enivarLimite(){
+      var limite = {
+        tempLim: document.getElementById('templim').value
+      }
+      if (limite != ""){
+        socket.emit('guardarLim', limite);
+      }
+      else{
+          alert("Error\nPlease fill out all the fields!");
+      }
+    }
+        function enivarLimite2(){
+      var limite = {
+        tempLim2: document.getElementById('templim2').value
+      }
+      if (limite != ""){
+        socket.emit('guardarLim2', limite);
+      }
+      else{
+          alert("Error\nPlease fill out all the fields!");
+      }
     }
 </script>
 </body>

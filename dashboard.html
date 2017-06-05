@@ -234,9 +234,13 @@ var secret;
         socket.emit('get', "time");
         socket.on('time', function(data){
           //data
+          var result;
           var date = data.split("T");
           var time = date[1].split(".");
-          document.getElementById('datetime').innerHTML = date[0] + ' at ' + time[0];
+          var hora = time[0].split(":");
+          result = parseInt(hora[0],10);
+          result = result + 1;
+          document.getElementById('datetime').innerHTML = date[0] + ' at ' + result + ":" + hora[1] + ":" + hora[2];
         });
         socket.emit('get', "title");
         socket.on('title', function(data){

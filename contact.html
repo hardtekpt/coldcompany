@@ -36,9 +36,20 @@
 								<li>
 									<a href="index.html">Home</a>
 								</li>
-								<li>
-									<a href="product.html">Product</a>
-								</li>
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Products<strong class="caret"></strong></a>
+									<ul class="dropdown-menu">
+										<li>
+											<a href="fridges.html">Fridges</a>
+										</li>
+										<li>
+											<a href="rc.html">Refrigerating chambers</a>
+										</li>
+										<li>
+											<a href="remotetemp.html">Remote temperature</a>
+										</li>
+									</ul>
+						</li>
 								<li class="dropdown">
 									<a href="#" class="dropdown-toggle" data-toggle="dropdown">About<strong class="caret"></strong></a>
 									<ul class="dropdown-menu">
@@ -213,13 +224,13 @@
 	var socket = io.connect();
 
 		function teste(){
-		var submission = {
+		var submission1 = {
 			name: document.getElementById("name").value,
 			subject: document.getElementById("subject").value,
 			message: document.getElementById("message").value
 		}
-		if(submission.name != "" && submission.subject != "" && submission.message != ""){
-			socket.emit('submit', submission);
+		if(submission1.name != "" && submission1.subject != "" && submission1.message != ""){
+			socket.emit('submit', submission1);
 			alert("Success\nThank you for giving us your opinion!");
 		}
 		else{
@@ -227,6 +238,32 @@
 		}
 	}
 
+
+    	var submission;
+		function entrar(){
+		submission = {
+            username: document.getElementById("username").value,
+            password: document.getElementById("password").value
+		}
+		if(submission.username != "" && submission.password != ""){
+			socket.emit('entrar2', submission);
+		}
+		else{
+			alert("Please fill out all the fields!");
+		}
+		logar();
+
+	}
+	function logar(){
+		socket.on('login', function(data){
+			if(data == "ok"){
+				window.location.replace("/dashboard.html");
+			}
+			else if(data == "nok"){
+				alert("Error\nWrong user or password");
+			}
+		});
+	}
 </script>
 </body>
 </html>
