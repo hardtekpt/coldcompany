@@ -188,7 +188,7 @@
         </form>
       </div>
       <div class="modal-footer">
-		<button type="submit" class="btn btn-primary" onclick="save()">
+		<button type="submit" class="btn btn-primary" onclick="entrar()">
 			Save
 		</button>
       </div>
@@ -246,21 +246,8 @@ var secret;
         socket.on('title', function(data){
           document.getElementById('title').innerHTML = data;
         });
-        var fields;
-    function save(){
-      fields = {
-        name: document.getElementById('name3').value,
-        secret: document.getElementById('secret').value
-      }
-      if(fields.name != "" && fields.secret != ""){
-        socket.emit('save', fields);
-        $('#exampleModal').modal('hide');
-      }
-      else{
-        alert("Error\nPlease fill out all the fields");
-        console.log(fields);
-      }
-    }
+        
+
     socket.emit('get', "coluna1");
     socket.on('coluna1', function(data){
     var ctx = document.getElementById("myChart");
@@ -321,7 +308,21 @@ var secret;
 });
       }
     });
-    
+            var fields;
+    function entrar(){
+      fields = {
+        name: document.getElementById('name3').value,
+        secret: document.getElementById('secret').value
+      }
+      if(fields.name != "" && fields.secret != ""){
+        socket.emit('save', fields);
+        $('#exampleModal').modal('hide');
+      }
+      else{
+        alert("Error\nPlease fill out all the fields");
+        console.log(fields);
+      }
+    }
 </script>
 </body>
 </html>
